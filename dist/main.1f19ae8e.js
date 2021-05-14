@@ -11303,6 +11303,9 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app1\">\n  <div class=\"output\">\n    <span id=\"number\">10</span>\n  </div>\n  <div class=\"actions\">\n    <button id=\"add1\">+1</button>\n    <button id=\"minus1\">-1</button>\n    <button id=\"mul2\">*2</button>\n    <button id=\"divide2\">/2</button>\n  </div>\n</section>\n";
+var $element = (0, _jquery.default)(html);
+$element.appendTo((0, _jquery.default)("body>.page"));
 var $add = (0, _jquery.default)("#add1");
 var $minus = (0, _jquery.default)("#minus1");
 var $mul = (0, _jquery.default)("#mul2");
@@ -11348,6 +11351,9 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app2\">\n  <ul class=\"tab-bar\">\n    <li>1</li>\n    <li>2</li>\n  </ul>\n  <ul class=\"tab-content\">\n    <li>\u5185\u5BB91</li>\n    <li>\u5185\u5BB92</li>\n  </ul>\n</section>\n";
+var $element = (0, _jquery.default)(html);
+$element.appendTo((0, _jquery.default)("body>.page"));
 var $tabBar = (0, _jquery.default)("#app2 .tab-bar");
 var $tabContent = (0, _jquery.default)("#app2 .tab-content");
 var localKey = "app2.index";
@@ -11374,6 +11380,9 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app3\">\n  <div class=\"square\"></div>\n</section>\n";
+var $element = (0, _jquery.default)(html);
+$element.appendTo((0, _jquery.default)("body>.page"));
 var $square = (0, _jquery.default)("#app3 .square");
 var localKey = "app3.active";
 var active = localStorage.getItem(localKey) === "yes";
@@ -11408,6 +11417,9 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app4\">\n  <div class=\"circle\"></div>\n</section>  \n";
+var $element = (0, _jquery.default)(html);
+$element.appendTo((0, _jquery.default)("body>.page"));
 var $circle = (0, _jquery.default)("#app4 .circle");
 $circle.hover(function () {
   $circle.addClass("active");
