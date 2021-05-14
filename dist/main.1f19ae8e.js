@@ -11303,16 +11303,20 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//页面元素，初始化并添加到DOM树中，渲染
 var html = "\n<section id=\"app1\">\n  <div class=\"output\">\n    <span id=\"number\">10</span>\n  </div>\n  <div class=\"actions\">\n    <button id=\"add1\">+1</button>\n    <button id=\"minus1\">-1</button>\n    <button id=\"mul2\">*2</button>\n    <button id=\"divide2\">/2</button>\n  </div>\n</section>\n";
 var $element = (0, _jquery.default)(html);
-$element.appendTo((0, _jquery.default)("body>.page"));
+$element.appendTo((0, _jquery.default)("body>.page")); //寻找操作元素
+
 var $add = (0, _jquery.default)("#add1");
 var $minus = (0, _jquery.default)("#minus1");
 var $mul = (0, _jquery.default)("#mul2");
 var $div = (0, _jquery.default)("#divide2");
-var $num = (0, _jquery.default)("#number");
+var $num = (0, _jquery.default)("#number"); //查看初始化状态，辨别是否存在缓存数据，识别用户是否初次登陆
+
 var n = localStorage.getItem("n") || 100;
-$num.text(n);
+$num.text(n); //操作对应元素
+
 $add.on("click", function () {
   var n = parseInt($num.text());
   n++;
