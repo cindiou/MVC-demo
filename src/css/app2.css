@@ -1,0 +1,25 @@
+#app2 {
+  border: 1px solid red;
+}
+
+#app2 .tab-bar {
+  display: flex;
+  /* border: 3px double black; */
+}
+
+#app2 .tab-bar > li {
+  width: 50%;
+  border: 1px solid black;
+  text-align: center;
+}
+#app2 .tab-bar > li.selected {
+  background-color: #eee;
+}
+
+#app2 .tab-content > li {
+  display: none;
+}
+
+#app2 .tab-content > li.active {
+  display: block;
+}
