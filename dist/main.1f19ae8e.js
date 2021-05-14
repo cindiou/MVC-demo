@@ -11297,50 +11297,87 @@ return jQuery;
 },{"process":"../../../AppData/Local/Yarn/Data/global/node_modules/process/browser.js"}],"js/app1.js":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 require("../css/app1.css");
 
 var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//页面元素，初始化并添加到DOM树中，渲染
-var html = "\n<section id=\"app1\">\n  <div class=\"output\">\n    <span id=\"number\">10</span>\n  </div>\n  <div class=\"actions\">\n    <button id=\"add1\">+1</button>\n    <button id=\"minus1\">-1</button>\n    <button id=\"mul2\">*2</button>\n    <button id=\"divide2\">/2</button>\n  </div>\n</section>\n";
-var $element = (0, _jquery.default)(html);
-$element.appendTo((0, _jquery.default)("body>.page")); //寻找操作元素
+//数据模型
+var model = {
+  data: {
+    _n: parseInt(localStorage.getItem("n")) || 100,
 
-var $add = (0, _jquery.default)("#add1");
-var $minus = (0, _jquery.default)("#minus1");
-var $mul = (0, _jquery.default)("#mul2");
-var $div = (0, _jquery.default)("#divide2");
-var $num = (0, _jquery.default)("#number"); //查看初始化状态，辨别是否存在缓存数据，识别用户是否初次登陆
+    get n() {
+      return model.data._n;
+    },
 
-var n = localStorage.getItem("n") || 100;
-$num.text(n); //操作对应元素
+    set n(value) {
+      model.data._n = value;
+      localStorage.setItem("n", value);
+      view.render(value);
+    }
 
-$add.on("click", function () {
-  var n = parseInt($num.text());
-  n++;
-  $num.text(n);
-  localStorage.setItem("n", n);
-});
-$minus.on("click", function () {
-  var n = parseInt($num.text());
-  n--;
-  $num.text(n);
-  localStorage.setItem("n", n);
-});
-$mul.on("click", function () {
-  var n = parseInt($num.text());
-  n *= 2;
-  $num.text(n);
-  localStorage.setItem("n", n);
-});
-$div.on("click", function () {
-  var n = parseInt($num.text());
-  n /= 2;
-  $num.text(n);
-  localStorage.setItem("n", n);
-});
+  }
+}; //视图
+
+var view = {
+  el: null,
+  html: "\n  <div>\n    <div class=\"output\">\n      <span id=\"number\">{{n}}</span>\n    </div>\n    <div class=\"actions\">\n      <button id=\"add1\">+1</button>\n      <button id=\"minus1\">-1</button>\n      <button id=\"mul2\">*2</button>\n      <button id=\"divide2\">/2</button>\n    </div>\n  </div>\n  ",
+  init: function init(el, n) {
+    view.el = (0, _jquery.default)(el);
+    view.render(n);
+  },
+  render: function render(n) {
+    if (view.el.children().length !== 0) {
+      view.el.empty();
+    }
+
+    (0, _jquery.default)(view.html.replace("{{n}}", n)).appendTo(view.el);
+  }
+}; //控制流程
+
+var control = {
+  init: function init(el) {
+    view.init(el, model.data.n);
+    control.bindEvents();
+  },
+  events: {
+    "#add1 click": function add1Click() {
+      return model.data.n++;
+    },
+    "#minus1 click": function minus1Click() {
+      return model.data.n--;
+    },
+    "#mul2 click": function mul2Click() {
+      return model.data.n *= 2;
+    },
+    "#divide2 click": function divide2Click() {
+      return model.data.n /= 2;
+    }
+  },
+  bindEvents: function bindEvents() {
+    for (var _i = 0, _Object$keys = Object.keys(control.events); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
+      var pair = key.split(" ");
+      var elem = pair[0];
+      var eventType = pair[1];
+      var callback = control.events[key];
+      view.el.on(eventType, elem, callback);
+    }
+  }
+};
+var _default = control; //页面元素，初始化并添加到DOM树中，渲染
+//寻找操作元素
+//查看初始化状态，辨别是否存在缓存数据，识别用户是否初次登陆
+//操作对应元素
+
+exports.default = _default;
 },{"../css/app1.css":"css/app1.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"css/app2.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -11349,27 +11386,78 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"../../../AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"js/app2.js":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 require("../css/app2.css");
 
 var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var html = "\n<section id=\"app2\">\n  <ul class=\"tab-bar\">\n    <li>1</li>\n    <li>2</li>\n  </ul>\n  <ul class=\"tab-content\">\n    <li>\u5185\u5BB91</li>\n    <li>\u5185\u5BB92</li>\n  </ul>\n</section>\n";
-var $element = (0, _jquery.default)(html);
-$element.appendTo((0, _jquery.default)("body>.page"));
-var $tabBar = (0, _jquery.default)("#app2 .tab-bar");
-var $tabContent = (0, _jquery.default)("#app2 .tab-content");
 var localKey = "app2.index";
-var index = localStorage.getItem(localKey) || 0;
-$tabBar.on("click", "li", function (e) {
-  var $li = (0, _jquery.default)(e.currentTarget);
-  $li.addClass("selected").siblings().removeClass("selected");
-  var index = $li.index();
-  localStorage.setItem(localKey, index);
-  $tabContent.children().eq(index).addClass("active").siblings().removeClass("active");
-});
-$tabBar.children().eq(index).trigger("click");
+var eventsBus = (0, _jquery.default)(window);
+var model = {
+  data: {
+    index: parseInt(localStorage.getItem(localKey)) || 0
+  }
+};
+var view = {
+  el: null,
+  html: function html(index) {
+    return "\n<div>\n  <ul class=\"tab-bar\">\n    <li class=".concat(index === 0 ? "selected" : "", ">1</li>\n    <li class=").concat(index === 0 ? "" : "selected", ">2</li>\n  </ul>\n  <ul class=\"tab-content\">\n    <li class=").concat(index === 0 ? "active" : "", ">\u5185\u5BB91</li>\n    <li class=").concat(index === 0 ? "" : "active", ">\u5185\u5BB92</li>\n  </ul>\n</div>\n");
+  },
+  init: function init(el, data) {
+    view.el = (0, _jquery.default)(el);
+    view.render(data);
+  },
+  render: function render(data) {
+    if (view.el.children().length !== 0) {
+      view.el.empty();
+    }
+
+    (0, _jquery.default)(view.html(data.index)).appendTo(view.el);
+  }
+};
+var control = {
+  init: function init(el) {
+    view.init(el, model.data);
+    eventsBus.on("indexUpdate", function () {
+      view.render(model.data);
+    });
+    control.bindEvents();
+  },
+  events: {
+    "click .tab-bar li": function clickTabBarLi(e) {
+      var index = (0, _jquery.default)(e.currentTarget).index();
+      control.update({
+        index: index
+      });
+    }
+  },
+  bindEvents: function bindEvents() {
+    for (var _i = 0, _Object$keys = Object.keys(control.events); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
+      var index = key.indexOf(" ");
+      var selector = key.slice(index + 1);
+      var eventType = key.slice(0, index);
+      var callback = control.events[key];
+      view.el.on(eventType, selector, callback);
+    }
+  },
+  update: function update(data) {
+    Object.assign(model.data, data);
+    localStorage.setItem(localKey, data.index);
+    eventsBus.trigger("indexUpdate");
+  },
+  create: function create() {},
+  delete: function _delete() {},
+  get: function get() {}
+};
+var _default = control;
+exports.default = _default;
 },{"../css/app2.css":"css/app2.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"css/app3.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -11437,13 +11525,19 @@ require("./css/reset.css");
 
 require("./css/global.css");
 
-require("./js/app1.js");
+var _app = _interopRequireDefault(require("./js/app1.js"));
 
-require("./js/app2.js");
+var _app2 = _interopRequireDefault(require("./js/app2.js"));
 
 require("./js/app3.js");
 
 require("./js/app4.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_app.default.init("#app1");
+
+_app2.default.init("#app2");
 },{"./css/reset.css":"css/reset.css","./css/global.css":"css/global.css","./js/app1.js":"js/app1.js","./js/app2.js":"js/app2.js","./js/app3.js":"js/app3.js","./js/app4.js":"js/app4.js"}],"../../../AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
